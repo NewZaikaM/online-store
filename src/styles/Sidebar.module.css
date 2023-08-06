@@ -25,6 +25,7 @@
   font-size: 14px;
   line-height: 17px;
   text-transform: capitalize;
+  transition: all .3s;
 }
 
 .link:hover {
