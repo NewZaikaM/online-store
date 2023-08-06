@@ -4,6 +4,8 @@
   height: 423px;
   display: flex;
   flex-direction: column;
+  background: var(--dark);
+  border-radius: 6px;
 }
 
 .title {
