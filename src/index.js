@@ -12,7 +12,9 @@ import './styles/index.css';
 
 import App from './App/App';
 import HomePage from './pages/Home/HomePage';
+import SingleProduct from './components/Products/SingleProduct';
 import ErrorPage from './pages/Error/ErrorPage';
+import Profile from './components/Profile/Profile';
 
 const router = createBrowserRouter([
 	{
@@ -34,7 +36,11 @@ const router = createBrowserRouter([
 			},
 			{
 				path: '/products/:productId',
-				element: <HomePage />,
+				element: <SingleProduct />,
+			},
+			{
+				path: '/profile',
+				element: <Profile />,
 			},
 		],
 	},

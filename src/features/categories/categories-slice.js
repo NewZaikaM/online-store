@@ -5,7 +5,6 @@ import axios from "axios";
 const initialState = {
   list: [],
   isPending: false,
-  error: null,
 };
 
 export const getCategories = createAsyncThunk('categories/getCategories', async (_, thankAPI) => {

@@ -1,12 +1,35 @@
 //@ts-nocheck
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 
 import logo from './../../images/logo.svg';
 import avatar from './../../images/avatar.jpg';
+import { toggleForm } from './../../features/user/user-slice';
 
 import styles from './../../styles/Header.module.css';
+import { useEffect, useState } from 'react';
 
 const Header = () => {
+	const { currentUser } = useSelector(({ user }) => user);
+	const dispatch = useDispatch();
+	const navigate = useNavigate();
+
+	const [values, setValues] = useState({ name: 'Guest', avatar: avatar });
+
+	useEffect(() => {
+		if (!currentUser) return;
+
+		setValues({ name: currentUser.name, avatar: currentUser.avatar });
+	}, [currentUser]);
+
+	const handleClick = () => {
+		if (!currentUser) {
+			dispatch(toggleForm(true));
+		} else {
+			navigate('/profile');
+		}
+	};
+
 	return (
 		<header className={styles.header}>
 			<div className={styles.logo}>
@@ -16,12 +39,12 @@ const Header = () => {
 			</div>
 
 			<div className={styles.info}>
-				<div className={styles.user}>
+				<div className={styles.user} onClick={handleClick}>
 					<div
 						className={styles.avatar}
-						style={{ backgroundImage: `url(${avatar})` }}
+						style={{ backgroundImage: `url(${values.avatar})` }}
 					/>
-					<div className={styles.username}>Guest</div>
+					<div className={styles.username}>{values.name}</div>
 				</div>
 
 				<form className={styles.form}>
@@ -47,7 +70,7 @@ const Header = () => {
 					<NavLink
 						to="/"
 						className={({ isActive }) =>
-							`${styles.favourites} ${isActive ? styles.active : ''}`
+							`${styles.favorites} ${isActive ? styles.active : ''}`
 						}
 					>
 						<svg className={styles['icon-fav']}>
