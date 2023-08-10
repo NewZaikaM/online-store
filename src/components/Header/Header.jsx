@@ -8,13 +8,17 @@ import { toggleForm } from './../../features/user/user-slice';
 
 import styles from './../../styles/Header.module.css';
 import { useEffect, useState } from 'react';
+import { useGetProductsQuery } from '../../features/api/api-slice';
 
 const Header = () => {
-	const { currentUser } = useSelector(({ user }) => user);
+	const { currentUser, cart } = useSelector(({ user }) => user);
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
 	const [values, setValues] = useState({ name: 'Guest', avatar: avatar });
+	const [searchValue, setSearchValue] = useState('');
+
+	const { data, isLoading } = useGetProductsQuery({ title: searchValue });
 
 	useEffect(() => {
 		if (!currentUser) return;
@@ -28,6 +32,10 @@ const Header = () => {
 		} else {
 			navigate('/profile');
 		}
+	};
+
+	const handleSearch = ({ target: { value } }) => {
+		setSearchValue(value);
 	};
 
 	return (
@@ -59,16 +67,32 @@ const Header = () => {
 							name="search"
 							placeholder="Search for anything..."
 							autoComplete="off"
-							onChange={() => {}}
-							value={''}
+							onChange={handleSearch}
+							value={searchValue}
 						/>
 					</div>
-					{false && <div className={styles.box}></div>}
+					{searchValue && (
+						<div className={styles.box}>
+							{isLoading
+								? 'Loading...'
+								: !data.length
+								? 'No results'
+								: data.map(({ title, images, id }) => (
+										<Link key={id} onClick={() => setSearchValue('')} className={styles.item} to={`/products/${id}`}>
+											<div
+												className={styles.image}
+												style={{ backgroundImage: `url(${images[0]})` }}
+											/>
+											<div className={styles.title}>{title}</div>
+										</Link>
+								  ))}
+						</div>
+					)}
 				</form>
 				{/*  */}
 				<div className={styles.account}>
 					<NavLink
-						to="/"
+						to="/favorites"
 						className={({ isActive }) =>
 							`${styles.favorites} ${isActive ? styles.active : ''}`
 						}
@@ -86,7 +110,8 @@ const Header = () => {
 						<svg className={styles['icon-cart']}>
 							<use xlinkHref={`${process.env.PUBLIC_URL}/sprite.svg#bag`} />
 						</svg>
-						<span className={styles.count}>2</span>
+						
+						{!!cart.length && <span className={styles.count}>{cart.length}</span>}
 					</NavLink>
 				</div>
 			</div>

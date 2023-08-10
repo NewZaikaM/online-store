@@ -15,6 +15,8 @@ import HomePage from './pages/Home/HomePage';
 import SingleProduct from './components/Products/SingleProduct';
 import ErrorPage from './pages/Error/ErrorPage';
 import Profile from './components/Profile/Profile';
+import SingleCategory from './components/Categories/SingleCategory';
+import Cart from './components/Cart/Cart';
 
 const router = createBrowserRouter([
 	{
@@ -28,11 +30,15 @@ const router = createBrowserRouter([
 			},
 			{
 				path: '/cart',
+				element: <Cart />,
+			},
+			{
+				path: '/favorites',
 				element: <HomePage />,
 			},
 			{
 				path: '/categories/:categoryId',
-				element: <HomePage />,
+				element: <SingleCategory />,
 			},
 			{
 				path: '/products/:productId',
