@@ -20,12 +20,12 @@
 
 **Клонируйте этот репозиторий на свой локальный компьютер:**
 ```
-git clone https://github.com/your-username/online-store-pet-project.git
+git clone https://github.com/NewZaikaM/online-store.git
 ```
 
 **Перейдите в директорию проекта:**
 ```
-cd online-store-pet-project
+cd online-store
 ```
 
 **Установите зависимости:**
